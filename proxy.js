@@ -43,6 +43,12 @@ const handler = {
         })
     }
 }
-const server = http.createServer((req, res) => handler[req.method]({req, res}));
+
+const server = http.createServer((req, res) => {
+    if (!Object.keys(handler).includes(req.method)) {
+        return res.end('Only for POST or GET requests');
+    }
+    handler[req.method]({req, res});
+});
 
 server.listen(8080);
